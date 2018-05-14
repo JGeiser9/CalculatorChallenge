@@ -1,0 +1,26 @@
+{
+  "name": "calculatorchallenge",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.16.3",
+    "nodemon": "^1.17.4",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JGeiser9/CalculatorChallenge.git"
+  },
+  "author": "JG9",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JGeiser9/CalculatorChallenge/issues"
+  },
+  "homepage": "https://github.com/JGeiser9/CalculatorChallenge#readme"
+}
