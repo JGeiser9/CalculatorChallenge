@@ -9,40 +9,11 @@
   <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-  <div class="main">
-    <form name="form">
-      <input type="text" class="display" disabled>
-    </form>
-    <table>
-      <tr>
-        <td><input class="button" type="button" value="C"></td>
-        <td><input class="button" type="button" value="CE"></td>
-        <td><input class="button" type="button" value="/"></td>
-        <td><input class="button" type="button" value="X"></td>
-      </tr>
-      <tr>
-        <td><input class="button" type="button" value="7"></td>
-        <td><input class="button" type="button" value="8"></td>
-        <td><input class="button" type="button" value="9"></td>
-        <td><input class="button" type="button" value="-"></td>
-      </tr>
-      <tr>
-        <td><input class="button" type="button" value="4"></td>
-        <td><input class="button" type="button" value="5"></td>
-        <td><input class="button" type="button" value="6"></td>
-        <td><input class="button" type="button" value="+"></td>
-      </tr>
-      <tr>
-        <td><input class="button" type="button" value="1"></td>
-        <td><input class="button" type="button" value="2"></td>
-        <td><input class="button" type="button" value="3"></td>
-        <td><input class="button" type="button" value="="></td>
-      </tr>
-      <tr>
-        <td><input class="button" type="button" value="0"></td>
-        <td><input class="button" type="button" value="."></td>
-      </tr>
-    </table>
+
+  <!-- Box model layout for the calculator to be built in JS -->
+  <div id='mainDiv'>
+    <div id='displayDiv'></div>
+    <div id='buttonsDiv'></div>
   </div>
 
   <script src="/js/app.js"></script>
