@@ -7,15 +7,23 @@
   <meta name="description" content="JavaScipt Calculator">
   <meta name="author" content="Jake Geiser">
   <link rel="stylesheet" href="/css/styles.css">
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io();
+  </script>
 </head>
 <body>
 
   <!-- Box model layout for the calculator to be built in JS -->
-  <div id='mainDiv'>
-    <div id='displayDiv'></div>
-    <div id='buttonsDiv'></div>
+  <div id='container'>
+    <div id='mainDiv'>
+      <div id='displayDiv'></div>
+      <div id='buttonsDiv'></div>
+    </div>
+    <div id='socketDiv'></div>
   </div>
 
   <script src="/js/app.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
 </body>
 </html>

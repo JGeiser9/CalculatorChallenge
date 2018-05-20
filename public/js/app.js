@@ -1,3 +1,6 @@
+/* --------- Global Variables --------- */
+const message = '';
+
 /* --------- Create a fucntion to build the buttons --------- */
 function buildButtons() {
   //Set the div element = buttonsDiv to add our constructed buttons to
@@ -37,6 +40,7 @@ function buildButtons() {
     buttonsDiv.innerHTML += rowHtml;
   }
 } buildButtons();
+
 
 /* --------- Create a fucntion to do something when clicked --------- */
 function clickedButtons() {
@@ -81,7 +85,7 @@ function clickedButtons() {
 
           case '=':
             button.addEventListener('click', (e) => {
-              evaluate(display.innerText);
+              calculate(display.innerText);
             });
             break;
         }
@@ -91,7 +95,27 @@ function clickedButtons() {
 
 
 /* --------- Create a function to evaluate the math and kick to sockets --------- */
-function evaluate(val) {
-  const display = document.getElementById('displayDiv');
-  display.innerText = eval(val);
+function calculate(str) {
+  const string = str
+  const answer = eval(string);
+  buildMessage(answer, str); //Passing our message builder the calculated answer
+  //Idea --> insert an if statement to truncate the answer to 4 decimals
 }
+
+/* --------- Create a function to display socket message --------- */
+function buildMessage(answer, str) {
+  console.log('The answer is ' + str + ' = ' + answer);
+
+  const socketDiv = document.getElementById('socketDiv');
+  const display = document.getElementById('displayDiv');
+
+  //This is where we would send our socket messages
+  /* To Do:
+      - Need to figure out how to get the calculations to stay on page! */
+  socketDiv.innerHTML = str + ' = ' + answer;
+  display.innerText = '';
+}
+
+// function insertAfter(newNode, referenceNode) {
+//     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+// }
