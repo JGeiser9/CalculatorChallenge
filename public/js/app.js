@@ -1,7 +1,6 @@
-/* --------- Global Variables --------- */
-const message = '';
+let arr = [];
 
-/* --------- Create a fucntion to build the buttons --------- */
+/* --------- Create a function to build the buttons --------- */
 function buildButtons() {
   //Set the div element = buttonsDiv to add our constructed buttons to
   const buttonsDiv = document.getElementById('buttonsDiv');
@@ -44,6 +43,7 @@ function buildButtons() {
 
 /* --------- Create a fucntion to do something when clicked --------- */
 function clickedButtons() {
+  // console.log('clicked buttons called');
   const display = document.getElementById('displayDiv');
   const buttonsDiv = document.getElementById('buttonsDiv');
   const buttons = buttonsDiv.getElementsByTagName('button');
@@ -58,7 +58,6 @@ function clickedButtons() {
       });
     } else {
         switch (value) {
-
           //For all instances but clear and equals; \xa0 is a no-break space
           case '/':
           case '*':
@@ -85,7 +84,7 @@ function clickedButtons() {
 
           case '=':
             button.addEventListener('click', (e) => {
-              calculate(display.innerText);
+              toAllSockets(display.innerText + ' = ' + eval(display.innerText));
             });
             break;
         }
@@ -93,29 +92,17 @@ function clickedButtons() {
   }
 } clickedButtons();
 
-
-/* --------- Create a function to evaluate the math and kick to sockets --------- */
-function calculate(str) {
-  const string = str
-  const answer = eval(string);
-  buildMessage(answer, str); //Passing our message builder the calculated answer
-  //Idea --> insert an if statement to truncate the answer to 4 decimals
+/* --------- Create a function to send to sockets and push to array --------- */
+function toAllSockets(str) {
+  // console.log('arr len: ' + arr.length)
+  arr.push(str);
+  socket.emit('new message', str); //Emits the calculation to the
+  socket.emit('load array', arr); //Load the current array to all new users
 }
 
-/* --------- Create a function to display socket message --------- */
-function buildMessage(answer, str) {
-  console.log('The answer is ' + str + ' = ' + answer);
-
-  const socketDiv = document.getElementById('socketDiv');
-  const display = document.getElementById('displayDiv');
-
-  //This is where we would send our socket messages
-  /* To Do:
-      - Need to figure out how to get the calculations to stay on page! */
-  socketDiv.innerHTML = str + ' = ' + answer;
-  display.innerText = '';
-}
-
-// function insertAfter(newNode, referenceNode) {
-//     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
-// }
+socket.on('display message', (str) => {
+  const li = document.createElement('li');
+  li.append(document.createTextNode(str));
+  document.getElementById("calcList").append(li);
+  console.log(arr);
+});

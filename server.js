@@ -5,21 +5,22 @@ const path = require('path');
 const server = app.listen(3000, () => {
   console.log("Good afternoon Mr. Wick, here for pleasure or business?");
 });
-
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.get('/', (request, response) => {
-  response.sendFile('index.html');
-});
-
-/* ------- Socket.io Setup ------- */
 const socket = require('socket.io'); //require the socket.io package
 const io = socket(server);
 
-//When a user visits the page a connection is made and logs this to console
+app.use(express.static(path.join(__dirname, 'public')));
+app.get('/', (req, res) => {
+  res.sendFile('index.html');
+});
+
+/* ------- Socket.io Setup ------- */
 //console.log(socket) for all the data
-io.sockets.on('connection', (socket) => {
-  console.log("new connection: " + socket.id);
+io.on('connection', (socket) => {
+  console.log('user: ' + socket.id + ' connected');
+  socket.on('new message', (data) => {
+    io.sockets.emit('display message', data);
+    console.log(data);
+  });
   socket.on('disconnect', function(){
     console.log('user: ' + socket.id + ' disconnected');
   });
