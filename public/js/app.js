@@ -1,5 +1,13 @@
 let arr = [];
 
+function loadDataForNewUser() {
+  socket.on('load array', (arr) => {
+    if(arr.length !== 0) {
+      console.log(arr);
+    }
+  });
+}
+
 /* --------- Create a function to build the buttons --------- */
 function buildButtons() {
   //Set the div element = buttonsDiv to add our constructed buttons to
@@ -84,7 +92,8 @@ function clickedButtons() {
 
           case '=':
             button.addEventListener('click', (e) => {
-              toAllSockets(display.innerText + ' = ' + eval(display.innerText));
+              emitToServer(display.innerText + ' = ' + eval(display.innerText));
+              display.innerText = ''; // Clears the calculator after you hit equals
             });
             break;
         }
@@ -92,17 +101,40 @@ function clickedButtons() {
   }
 } clickedButtons();
 
+
 /* --------- Create a function to send to sockets and push to array --------- */
-function toAllSockets(str) {
-  // console.log('arr len: ' + arr.length)
+function emitToServer(str) {
+  //console.log('arr len: ' + arr.length)
   arr.push(str);
-  socket.emit('new message', str); //Emits the calculation to the
-  socket.emit('load array', arr); //Load the current array to all new users
+  socket.emit('calc', str); //sends calculation to server
+  arr.shift(); //only send one calculation to the server each time
 }
 
-socket.on('display message', (str) => {
+function appendElement(str) {
+  var list = document.getElementById("calcList");
+
+  // remove the last element if we hit our maximum history length
+  var listElements = list.getElementsByTagName('li');
+  if (listElements.length == 10) {
+      listElements[9].remove();
+  }
+
   const li = document.createElement('li');
   li.append(document.createTextNode(str));
-  document.getElementById("calcList").append(li);
-  console.log(arr);
+  list = list.insertBefore(li, list.childNodes[0]);
+
+
+}
+
+/* ---------  --------- */
+//When the equals button is clicked, create and append the new element to the page
+socket.on('message', (str) => {
+  appendElement(str);
+});
+
+//if the array has anything in it, load it for the new user to see
+socket.on('load existing', (arr) => {
+  for (let i = 0; i < arr.length; i++) {
+    appendElement(arr[i]);
+  }
 });
