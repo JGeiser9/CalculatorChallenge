@@ -115,7 +115,7 @@ function appendElement(str) {
 
   // remove the last element if we hit our maximum history length
   var listElements = list.getElementsByTagName('li');
-  if (listElements.length == 10) {
+  if (listElements.length > 9) {
       listElements[9].remove();
   }
 
@@ -123,10 +123,9 @@ function appendElement(str) {
   li.append(document.createTextNode(str));
   list = list.insertBefore(li, list.childNodes[0]);
 
-
 }
 
-/* ---------  --------- */
+/* ---------------------------------- */
 //When the equals button is clicked, create and append the new element to the page
 socket.on('message', (str) => {
   appendElement(str);
@@ -134,7 +133,7 @@ socket.on('message', (str) => {
 
 //if the array has anything in it, load it for the new user to see
 socket.on('load existing', (arr) => {
-  for (let i = 0; i < arr.length; i++) {
+  for (let i = arr.length - 1; i >= 0; i--) {
     appendElement(arr[i]);
   }
 });
