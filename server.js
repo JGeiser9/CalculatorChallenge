@@ -1,8 +1,9 @@
-const app = require("express")();
-const path = require("path");
-const server = require("http").createServer(app);
-const socket = require("socket.io")(server);
-const port = process.env.PORT || 3000;
+var express = require("express");
+var app = express();
+var path = require("path");
+var server = require("http").createServer(app);
+var io = require("socket.io")(server);
+var port = process.env.PORT || 3000;
 
 let arrNewUser = [];
 
@@ -17,10 +18,11 @@ app.get("/", (req, res) => {
 });
 
 /* ------- Socket.io Setup ------- */
-io.sockets.on("connection", (socket) => {
+io.on("connection", (socket) => {
   socket.on("calc", (data) => {
     arrNewUser.unshift(data);
     io.sockets.emit("message", data);
+    // socket.emit("message", data);
     console.log(arrNewUser);
   });
 
